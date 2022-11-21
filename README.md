@@ -3,6 +3,12 @@
 instructions: https://github.com/theneubeck/tdd-blog-instructions
 
 
+## Rules
+
+* You can only run your code with tests
+* Take turns. One person writes a test - The other writes the code.
+* _Always_ write the test **first**
+
 This repo uses nvm and depends on node 17
 
 ```
