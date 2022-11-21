@@ -4,7 +4,7 @@ require("should");
 const request = require("supertest");
 const app = require("../");
 
-describe("GET /", () => {
+describe("GET /posts", () => {
   it("should say 200 ok", () => {
     return request(app)
       .get("/")
@@ -26,8 +26,11 @@ describe("GET /:id", () => {
       .expect(200)
       .expect("Content-Type", "application/json; charset=utf-8")
       .then((response) => {
-        response.body.should.eql({
-          blogPost: true
+        const post = response.body.blogPost;
+        post.should.eql({
+          id: "1",
+          title: "First blogpost hello",
+          text: "mumbo jumbo",
         });
       });
   });
@@ -44,6 +47,18 @@ describe("GET no existing blog post", () => {
           Error: true,
           Message: "Couldn't find blog post with Id 99"
         });
+      });
+  });
+});
+
+describe("GET /posts", () => {
+  it("request should return all blogposts", () => {
+    return request(app)
+      .get("/posts")
+      .expect(200)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((response) => {
+        response.body.blogPosts.length.should.eql(2);
       });
   });
 });
