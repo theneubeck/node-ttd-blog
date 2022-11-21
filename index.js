@@ -1,15 +1,16 @@
 "use strict";
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 const blogPosts = [
-  {id: "1", title: "First blogpost hello", text: "mumbo jumbo"},
-  {id: "2", title: "Second blogpost hello", text: "hey baberiba"}
+  { id: "1", title: "First blogpost hello", text: "mumbo jumbo" },
+  { id: "2", title: "Second blogpost hello", text: "hey baberiba" },
 ];
 
 app.get("/", (req, res) => {
   res.status(200).json({
-    ok: true
+    ok: true,
   });
 });
 
@@ -29,9 +30,22 @@ app.get("/:id", (req, res) => {
   } else {
     res.status(404).json({
       Error: true,
-      Message: "Couldn't find blog post with Id 99"
+      Message: "Couldn't find blog post with Id 99",
     });
   }
+});
+
+app.post("/posts", (req, res) => {
+  const blogPostContent = req.body;
+  const id = blogPosts.length + 1;
+  blogPosts.push({
+    id,
+    title: blogPostContent.title,
+    text: blogPostContent.text,
+  });
+  res.status(200).json({
+    id,
+  });
 });
 
 module.exports = app;

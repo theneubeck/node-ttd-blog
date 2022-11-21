@@ -12,12 +12,11 @@ describe("GET /posts", () => {
       .expect("Content-Type", "application/json; charset=utf-8")
       .then((response) => {
         response.body.should.eql({
-          ok: true
+          ok: true,
         });
       });
   });
 });
-
 
 describe("GET /:id", () => {
   it("ID GET request should return blogpost", () => {
@@ -45,7 +44,7 @@ describe("GET no existing blog post", () => {
       .then((response) => {
         response.body.should.eql({
           Error: true,
-          Message: "Couldn't find blog post with Id 99"
+          Message: "Couldn't find blog post with Id 99",
         });
       });
   });
@@ -59,6 +58,19 @@ describe("GET /posts", () => {
       .expect("Content-Type", "application/json; charset=utf-8")
       .then((response) => {
         response.body.blogPosts.length.should.eql(2);
+      });
+  });
+});
+
+describe("POST /posts", () => {
+  it("request should create an entry on blogposts", () => {
+    return request(app)
+      .post("/posts")
+      .send({ title: "New blogpost", text: "Hellooo world" })
+      .expect(200)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((response) => {
+        response.body.id.should.eql(3);
       });
   });
 });
