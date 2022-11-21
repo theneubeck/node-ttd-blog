@@ -13,9 +13,18 @@ app.get("/", (req, res) => {
 app.get("/:id", (req, res) => {
   const blogPostIdParam = req.params.id;
   const blogPost = blogPosts.find((b) => b.id.toString() === blogPostIdParam);
-  res.status(200).json({
-    blogPost: !!blogPost
-  });
+  if (blogPost){
+    res.status(200).json({
+      blogPost: !!blogPost
+    });
+  }
+  else {
+    res.status(404).json({
+      Error: true,
+      Message : "Couldn't find blog post with Id 99"
+    });
+  }
+ 
 });
 
 module.exports = app;

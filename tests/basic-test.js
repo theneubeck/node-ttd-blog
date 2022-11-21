@@ -32,3 +32,18 @@ describe("GET /:id", () => {
       });
   });
 });
+
+describe("GET no existing blog post", () => {
+  it("Get request with ID that doesn't exist should return error response", () => {
+    return request(app)
+      .get("/99")
+      .expect(404)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((response) => {
+        response.body.should.eql({
+          Error: true,
+          Message: "Couldn't find blog post with Id 99"
+        });
+      });
+  });
+});
