@@ -74,3 +74,19 @@ describe("POST /posts", () => {
       });
   });
 });
+
+describe("POST /posts", () => {
+  it("Create blog post with anything, should return not accepted", () => {
+    return request(app)
+      .post("/posts")
+      .expect(400)
+      .expect("Content-Type", "application/json; charset=utf-8")
+      .then((response) => {
+        response.body.should.eql({
+          Error: true,
+          Message: "Bad request",
+        });
+      });
+  });
+});
+

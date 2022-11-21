@@ -37,15 +37,23 @@ app.get("/:id", (req, res) => {
 
 app.post("/posts", (req, res) => {
   const blogPostContent = req.body;
-  const id = blogPosts.length + 1;
-  blogPosts.push({
-    id,
-    title: blogPostContent.title,
-    text: blogPostContent.text,
-  });
-  res.status(200).json({
-    id,
-  });
+  if (blogPostContent){
+    const id = blogPosts.length + 1;
+    blogPosts.push({
+      id,
+      title: blogPostContent.title,
+      text: blogPostContent.text,
+    });
+    res.status(200).json({
+      id,
+    });
+  } else {
+    res.status(400).json({
+      Error : true,
+      Message: "Bad request",
+    });
+  }
+ 
 });
 
 module.exports = app;
